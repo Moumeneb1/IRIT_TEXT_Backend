@@ -1,0 +1,5 @@
+name: flask_env
+channels:
+  - defaults
+prefix: /home/moumene/miniconda3/envs/flask_env
+
