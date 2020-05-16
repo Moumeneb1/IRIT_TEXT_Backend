@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request
 import uuid
 from scrapper import Scrapper
 import datetime
@@ -6,6 +6,7 @@ import sys
 
 app = Flask(__name__)
 scraper = Scrapper()
+sessions = dict()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -34,6 +35,7 @@ def scrap_df():
         # we will get the file from the request
         #keywords = request.form.getlist('keywords')
         data = request.json
+        session_token = str(uuid.uuid4())
         lang = data["lang"]
         limit = data["limit"]
         begin_date = datetime.datetime.strptime(data["begin_date"],
@@ -47,17 +49,28 @@ def scrap_df():
                                    begindate=begin_date,
                                    enddate=end_date,
                                    limit=10)
-        session["ID"] = uuid.uuid4()
-        session["scrapped_data"] == df
-        return jsonify(df.to_json(orient="records"))
+
+        sessions[session_token] = df
+        print(sessions.keys())
+        return jsonify({
+            'session_token': session_token,
+            'dataframe': df.to_json(orient="records")
+        })
 
 
 @app.route("/predict_dataframe", methods=["POST"])
 def predict():
-    df = session["data"]
-    #Feature enginnering
-    #Preprocessing
-    #Text
+    if request.method == 'POST':
+        data = request.json
+        session_token = data["session_token"]
+        session_token = session_token.encode("ascii", "replace")
+        print(sessions.keys())
+        print(len(sessions))
+        df = sessions[session_token]
+        #Feature enginnering
+        #Preprocessing
+        #Text
+        return jsonify({'session_token': session_token, 'test': 1})
 
 
 if __name__ == "__main__":
