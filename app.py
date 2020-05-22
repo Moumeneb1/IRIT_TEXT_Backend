@@ -44,12 +44,12 @@ def scrap_df():
         #keywords = request.form.getlist('keywords')
         data = request.json
         session_token = str(uuid.uuid4())
-        lang = data["lang"]
+        lang = 'fr'
         limit = data["limit"]
         begin_date = datetime.datetime.strptime(data["begin_date"],
-                                                "%Y-%m-%d").date()
+                                                "%m-%d-%Y").date()
         end_date = datetime.datetime.strptime(data["end_date"],
-                                              "%Y-%m-%d").date()
+                                              "%m-%d-%Y").date()
         keywords = data["keywords"]
         keywords = [str(r) for r in keywords]  # Remove encoding
         df = scraper.get_tweets_df(keywords=keywords,
@@ -62,7 +62,7 @@ def scrap_df():
         print(sessions.keys())
         return jsonify({
             'session_token': session_token,
-            'dataframe': df.to_json(orient="records")
+            'dataframe_length': df.shape[0]
         })
 
 
@@ -122,4 +122,4 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=4000)
