@@ -71,9 +71,9 @@ models_dic = {
         },
         "flaubert_adapted_features": {
             "model": BertFeaturesForSequenceClassification,
-            "path": "flaubert_classification.pth",
+            "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/flaubert_classification.pth",
             "tokenizer_base": "flaubert-base-cased",
-            "features": ['nbretweet', 'nblike'],
+            "features": ['retweets', 'likes'],
         },
         "labels_dic": {
             0: 'opinionNegative',

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 import uuid
 from scrapper import Scrapper
 import datetime
@@ -10,14 +10,18 @@ from bertInput import BertInput
 import torch
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 import numpy as np
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
+cors = CORS(app)
+
 scraper = Scrapper()
 sessions = dict()
 
 
 @app.route('/', methods=['GET', 'POST'])
+@cross_origin()
 def index():
     print("hello worlddd")
     if (request.method == "POST"):
@@ -26,10 +30,12 @@ def index():
             "you sent": some_json,
         })
     else:
-        return jsonify({"about": "hello_world"})
+        response = jsonify({"about": "hello_world"})
+        return response
 
 
-@app.route('/tweet_data/', methods=['POST'])
+@app.route('/api/tweet_data/', methods=['POST'])
+@cross_origin()
 def scrap(ID):
     if request.method == 'POST':
         ID = request.json['ID']
@@ -37,60 +43,70 @@ def scrap(ID):
         return jsonify(tweet)
 
 
-@app.route('/scrap_tweets/', methods=['POST'])
+@app.route('/api/scrap_tweets/', methods=['POST'])
+@cross_origin()
 def scrap_df():
     if request.method == 'POST':
         # we will get the file from the request
         #keywords = request.form.getlist('keywords')
+        print(request.json)
         data = request.json
         session_token = str(uuid.uuid4())
         lang = 'fr'
-        limit = data["limit"]
+        limit = int(data["limit_scrap"])
         begin_date = datetime.datetime.strptime(data["begin_date"],
-                                                "%m-%d-%Y").date()
+                                                "%m/%d/%Y").date()
         end_date = datetime.datetime.strptime(data["end_date"],
-                                              "%m-%d-%Y").date()
+                                              "%m/%d/%Y").date()
         keywords = data["keywords"]
         keywords = [str(r) for r in keywords]  # Remove encoding
         df = scraper.get_tweets_df(keywords=keywords,
                                    lang=lang,
                                    begindate=begin_date,
                                    enddate=end_date,
-                                   limit=10)
-
+                                   limit=limit)
+        df.drop_duplicates(subset='id', keep="last")
         sessions[session_token] = df
         print(sessions.keys())
-        return jsonify({
+        response = jsonify({
             'session_token': session_token,
             'dataframe_length': df.shape[0]
         })
+        return response
 
 
-@app.route("/predict_dataframe", methods=["POST"])
+@app.route("/api/predict_dataframe", methods=["POST"])
+@cross_origin()
 def predict():
     if request.method == 'POST':
         data = request.json
-        session_token = data["session_token"]
-        model_name = data["model_name"]
-        domain_name = data["domain"]
-        session_token = session_token.encode("ascii", "replace")
+        print(sessions)
+        session_token = str(data["session_token"])
+        model_name = str(data["model_name"])
+        domain_name = str(data["field"])
+        session_token = session_token
+        print(session_token)
         df = sessions[session_token]
         # Feature enginnering
 
-        featuresExtrator = FeaturesExtraction(df, "texte")
+        print(df)
+        featuresExtrator = FeaturesExtraction(df, "text")
         featuresExtrator.fit_transform()
 
         # Preprocessing
-        text_preprocessing = TextPreprocessing(df, "texte")
+        text_preprocessing = TextPreprocessing(df, "text")
         text_preprocessing.fit_transform()
 
+        # drop small-text columns
+        df = df[~(df['processed_text'].str.len() > 100)]
+        #df = df[len(df['processed_text']) > 60]
         # Load model ,Tokenizer , labels_dict , features
 
         model, tokenizer, labels_dict, features = get_model(
             domain_name, model_name)
 
         # get text
-        sentences = df["texte"]
+        sentences = df["text"]
         bert_input = BertInput(tokenizer)
         sentences = bert_input.fit_transform(sentences)
         input_ID = torch.tensor(sentences[0])
@@ -111,14 +127,17 @@ def predict():
         for index, batch in enumerate(dataloader):
             output = model(batch)
             label_index = np.argmax(output[0].cpu().detach().numpy())
+            print(index)
             pred.append(labels_dict.get(label_index))
         df['prediction'] = pred
 
         # Inference
-        return jsonify({
+        response = jsonify({
             'session_token': session_token,
             'dataframe': df.to_json(orient="records")
         })
+
+        return response
 
 
 if __name__ == "__main__":
