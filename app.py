@@ -11,6 +11,7 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 import numpy as np
 from flask_cors import CORS, cross_origin
+from model_dict import models_dic
 
 
 app = Flask(__name__)
@@ -20,18 +21,19 @@ scraper = Scrapper()
 sessions = dict()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/api/getmodels/', methods=['GET'])
 @cross_origin()
 def index():
-    print("hello worlddd")
-    if (request.method == "POST"):
-        some_json = request.json()
-        return jsonify({
-            "you sent": some_json,
-        })
-    else:
-        response = jsonify({"about": "hello_world"})
-        return response
+
+    dict_ = []
+    for i, k in enumerate(models_dic):
+        dict_.append({})
+        dict_[i]['name'] = k
+        dict_[i]['models'] = [{'name': v_} for k_,
+                              v_ in enumerate(models_dic[k]['models'])]
+
+    response = jsonify(dict_)
+    return response
 
 
 @app.route('/api/tweet_data/', methods=['POST'])
