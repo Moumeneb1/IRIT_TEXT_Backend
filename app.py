@@ -155,7 +155,7 @@ def predict():
         response = jsonify({
             'session_token': session_token,
             'dataframe': df.to_json(orient="records"),
-            'summary': df['prediction'][0].value_counts().to_json(),
+            'summary': df['prediction'].value_counts().to_json(),
         })
 
         return response
@@ -197,22 +197,16 @@ def predict_one():
         input_MASK = torch.tensor(sentences[1])
         print(len(sentences))
 
-        tensor_dataset = TensorDataset(sentences)
-
-        dataloader = DataLoader(
-            tensor_dataset, batch_size=1, shuffle=False, num_workers=4)
-
         pred = []
-        for index, batch in enumerate(dataloader):
-            output = model(batch)
-            label_index = np.argmax(output[0].cpu().detach().numpy())
-            print(index)
-            pred.append(labels_dict.get(label_index))
+        output = model((input_ID, input_MASK,))
+        label_index = np.argmax(output[0].cpu().detach().numpy())
+        pred.append(labels_dict.get(label_index))
         df['prediction'] = pred
 
+        print(df['prediction'].iloc[0])
         # Inference
         response = jsonify({
-            'prediction': df['prediction'].value_counts()[0],
+            'prediction': df['prediction'].iloc[0],
         })
 
         return response

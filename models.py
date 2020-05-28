@@ -51,7 +51,7 @@ class BasicBertForClassification(nn.Module):
         params = torch.load(
             model_path, map_location=lambda storage, loc: storage)
         args = params['args']
-        bert_base_config = args.bert_config
+        bert_base_config = args['bert_config']
         bert_base_model = AutoModel.from_config(bert_base_config)
         model = BasicBertForClassification(
             bert_base_model, args['n_class'], args['dropout_rate'])
@@ -173,7 +173,6 @@ class Lstm_Bert_Model(nn.Module):
             self.lstm_hidden_size * 2, n_class, bias=True)
         self.dropout = nn.Dropout(p=self.dropout_rate)
 
-
     def forward(self, batch):
         """
         :param batch: list[str], list of sentences (NOTE: untokenized, continuous sentences)
@@ -205,7 +204,7 @@ class Lstm_Bert_Model(nn.Module):
         params = torch.load(
             model_path, map_location=lambda storage, loc: storage)
         args = params['args']
-        bert_base_config = args.bert_config
+        bert_base_config = args['bert_config']
         bert_base_model = AutoModel.from_config(bert_base_config)
         model = Lstm_Bert_Model(
             bert_base_model, args['n_class'], args['n_features'], args['dropout_rate'])
@@ -224,7 +223,6 @@ class Lstm_Bert_Model(nn.Module):
         }
 
         torch.save(params, path)
-
 
 
 class CNN_Bert_Model(nn.Module):
@@ -287,7 +285,7 @@ class CNN_Bert_Model(nn.Module):
         params = torch.load(
             model_path, map_location=lambda storage, loc: storage)
         args = params['args']
-        bert_base_config = args.bert_config
+        bert_base_config = args['bert_config']
         bert_base_model = AutoModel.from_config(bert_base_config)
         model = CNN_Bert_Model(
             bert_base_model, args['n_class'], args['output_channels'], args['kernel_size'], args['dropout_rate'])
@@ -306,7 +304,6 @@ class CNN_Bert_Model(nn.Module):
         }
 
         torch.save(params, path)
-
 
 
 class BertMultiTask(nn.Module):

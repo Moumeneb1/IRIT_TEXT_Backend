@@ -5,32 +5,11 @@ from transformers import AutoTokenizer
 models_dic = {
     "crisis_binary": {
         'models': {
-            "bert_base_multiligual_cased": {
+            "flaubert-base-cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_base_cased": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "bert_adapted_multiligual": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_adapted": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_base_features": {
-                "model": BertFeaturesForSequenceClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/flaubert_classification.pth",
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis Binary/Crisis_Binary_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
-                "features": ['retweets', 'likes'],
-            }
+            },
         },
         "labels_dic": {
             0: 'Message-Utilisable',
@@ -39,32 +18,11 @@ models_dic = {
     },
     "crisis_Three_Class": {
         'models': {
-            "bert_base_multiligual_cased": {
+            "flaubert-base-cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_base_cased": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "bert_adapted_multiligual": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_adapted": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_base_features": {
-                "model": BertFeaturesForSequenceClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/flaubert_classification.pth",
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis Three Classes/Crisis_ThreeClass_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
-                "features": ['retweets', 'likes'],
-            }
+            },
         },
         "labels_dic": {
             0: 'Message-InfoUrgent',
@@ -75,30 +33,10 @@ models_dic = {
         'models': {
             "bert_base_multiligual_cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_base_cased": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "bert_adapted_multiligual": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_adapted": {
-                "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis_Binary/.pth",
-                "tokenizer_base": "bert-base-multilingual-cased",
-            },
-            "flaubert_base_features": {
-                "model": BertFeaturesForSequenceClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/flaubert_classification.pth",
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis MultiClass/Crisis_MultiClass_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
-                "features": ['retweets', 'likes'],
-            }
+            },
+
         },
         "labels_dic": {
             0: 'Degats-Materiels',
@@ -111,24 +49,74 @@ models_dic = {
     },
     "psycho_sentiment": {
         'models': {
+            "flaubert_base_cased": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Psycho_sentiment_flaubert_base.pth",
+                "tokenizer_base": "flaubert-base-cased",
+            },
+            "bert_adapted": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_bert_adepted.pth",
+                "tokenizer_base": "bert-base-multilingual-cased",
+            },
             "bert_base_cased": {
                 "model": BasicBertForClassification,
-                "path": "dqdsqdq"
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_bert_base.pth",
+                "tokenizer_base": "bert-base-multilingual-cased",
             },
-            "flaubert_adapted_features": {
-                "model": BertFeaturesForSequenceClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/flaubert_classification.pth",
+            "flaubert_adapted": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_flaubert_adapted.pth",
                 "tokenizer_base": "flaubert-base-cased",
-                "features": ['retweets', 'likes'],
+            },
+            "flaubert_base": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_flaubert_base.pth",
+                "tokenizer_base": "flaubert-base-cased",
             },
 
         },
         "labels_dic": {
             0: 'opinionNegative',
             1: 'sansOpinion-ou-mixte',
+            2: 'opinionPositive'},
+
+    },
+    "psycho_useCase": {
+        'models': {
+            "bert_base_cased": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho useCase/Pycho_useCase_bert_base.pth",
+                "tokenizer_base": "bert-base-multilingual-cased",
+            },
+            "bert_adapted": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho useCase/Pycho_useCase_bert_adapted.pth",
+                "tokenizer_base": "bert-base-multilingual-cased",
+            },
+            "flaubert_base": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho useCase/Pycho_useCase_flaubert_adapted.pth",
+                "tokenizer_base": "flaubert-base-cased",
+            },
+            "flaubert_adapted": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_flaubert_adapted.pth",
+                "tokenizer_base": "flaubert-base-cased",
+            },
+            "flaubert_base": {
+                "model": BasicBertForClassification,
+                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/mode/home/aboumada/PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho useCase/Pycho_useCase_flaubert_base.pth",
+                "tokenizer_base": "flaubert-base-cased",
+            },
+
+        },
+
+        "labels_dic": {
+            0: 'opinionNegative',
+            1: 'sansOpinion-ou-mixte',
             2: 'opinionPositive'}
     },
-
 }
 
 
