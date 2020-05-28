@@ -17,7 +17,7 @@ class TextPreprocessing:
         return re.sub(r'(RT|rt)[ ]*@[ ]*[\S]+', '', text)
 
     def remove_at(text):
-        return re.sub(r'@\S+ ', '', text)
+        return re.sub(r'@\S+', '', text)
 
     def remove_extraspace(text):
         return re.sub(r' +', ' ', text)
@@ -40,7 +40,7 @@ class TextPreprocessing:
         return re.sub(r'\d+', 'numero', text)
 
     def remove_punctuations(text):
-        return re.sub('["$#%()*+,-./:;?![\]^_`{|}~\n\t’\']', ' ', text)
+        return re.sub('["$#%()*+,-@./:;?![\]^_`{|}~\n\t’\']', ' ', text)
 
     def fit_transform(self, inplace=False, pretraitement=[
             remove_url,

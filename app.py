@@ -12,6 +12,7 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 import numpy as np
 from flask_cors import CORS, cross_origin
 from model_dict import models_dic
+import pandas as pd
 
 
 app = Flask(__name__)
@@ -21,9 +22,27 @@ scraper = Scrapper()
 sessions = dict()
 
 
-@app.route('/api/getmodels/', methods=['GET'])
+@app.route('/api/get_noFeatures_models/', methods=['GET'])
 @cross_origin()
-def index():
+def get_noFeatures_models():
+
+    dict_ = []
+    for i, k in enumerate(models_dic):
+        dict_.append({})
+        dict_[i]['name'] = k
+        dict_[i]['models'] = []
+        j = 0
+        for k_, v_ in models_dic[k]['models'].items():
+            if 'features' not in models_dic[k]['models'][k_]:
+                dict_[i]['models'].append({'name': k_})
+
+    response = jsonify(dict_)
+    return response
+
+
+@app.route('/api/get_all_models/', methods=['GET'])
+@cross_origin()
+def get_all_models():
 
     dict_ = []
     for i, k in enumerate(models_dic):
@@ -120,8 +139,7 @@ def predict():
             tensor_dataset = TensorDataset(
                 input_ID, input_MASK, features_column)
         else:
-            tensor_dataset = TensorDataset(sentences)
-
+            tensor_dataset = TensorDataset(input_ID, input_MASK)
         dataloader = DataLoader(
             tensor_dataset, batch_size=1, shuffle=False, num_workers=4)
 
@@ -136,7 +154,65 @@ def predict():
         # Inference
         response = jsonify({
             'session_token': session_token,
-            'dataframe': df.to_json(orient="records")
+            'dataframe': df.to_json(orient="records"),
+            'summary': df['prediction'][0].value_counts().to_json(),
+        })
+
+        return response
+
+
+@app.route("/api/predict_onetweet", methods=["POST"])
+@cross_origin()
+def predict_one():
+    if request.method == 'POST':
+        data = request.json
+        print(data)
+        model_name = str(data["model_name"])
+        domain_name = str(data["field"])
+        df = pd.DataFrame.from_dict({"text": [data['text']]})
+        print(data['text'])
+
+        # Feature enginnering
+        print(df)
+        featuresExtrator = FeaturesExtraction(df, "text")
+        featuresExtrator.fit_transform()
+
+        # Preprocessing
+        text_preprocessing = TextPreprocessing(df, "text")
+        text_preprocessing.fit_transform()
+
+        # drop small-text columns
+        df = df[~(df['processed_text'].str.len() > 100)]
+        #df = df[len(df['processed_text']) > 60]
+        # Load model ,Tokenizer , labels_dict , features
+
+        model, tokenizer, labels_dict, features = get_model(
+            domain_name, model_name)
+
+        # get text
+        sentences = df["text"]
+        bert_input = BertInput(tokenizer)
+        sentences = bert_input.fit_transform(sentences)
+        input_ID = torch.tensor(sentences[0])
+        input_MASK = torch.tensor(sentences[1])
+        print(len(sentences))
+
+        tensor_dataset = TensorDataset(sentences)
+
+        dataloader = DataLoader(
+            tensor_dataset, batch_size=1, shuffle=False, num_workers=4)
+
+        pred = []
+        for index, batch in enumerate(dataloader):
+            output = model(batch)
+            label_index = np.argmax(output[0].cpu().detach().numpy())
+            print(index)
+            pred.append(labels_dict.get(label_index))
+        df['prediction'] = pred
+
+        # Inference
+        response = jsonify({
+            'prediction': df['prediction'].value_counts()[0],
         })
 
         return response
