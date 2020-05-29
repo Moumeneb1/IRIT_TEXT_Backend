@@ -20,102 +20,102 @@ models_dic = {
         'models': {
             "flaubert-base-cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis Three Classes/Crisis_ThreeClass_flaubert_base.pth",
+                "path": "../models_weights/Crisis Three Classes/Crisis_ThreeClass_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
         },
         "labels_dic": {
             0: 'Message-InfoUrgent',
-            1: 'Message-InfoNonUrgent',
-            2: 'Message-NonUtilisable'}
+            1: 'Message-NonUtilisable',
+            2: 'Message-InfoNonUrgent', }
     },
     "crisis_MultiClass": {
         'models': {
             "bert_base_multiligual_cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis MultiClass/Crisis_MultiClass_flaubert_base.pth",
+                "path": "../models_weights/Crisis MultiClass/Crisis_MultiClass_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
 
         },
         "labels_dic": {
             0: 'Degats-Materiels',
-            1: 'Avertissement-conseil',
+            1: 'Degats-Humains',
             2: 'AutresMessages',
             3: 'Message-NonUtilisable',
-            4: 'Soutiens',
-            5: 'Degats-Humains',
+            4: 'Avertissement-conseil',
+            5: 'Soutiens',
             6: 'Critiques'}
     },
     "psycho_sentiment": {
         'models': {
             "flaubert_base_cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Psycho_sentiment_flaubert_base.pth",
+                "path": "../models_weights/Psycho sentiment/Psycho_sentiment_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
             "bert_adapted": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_bert_adepted.pth",
+                "path": "../models_weights/Psycho sentiment/Pycho_sentiment_bert_adepted.pth",
                 "tokenizer_base": "bert-base-multilingual-cased",
             },
             "bert_base_cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_bert_base.pth",
+                "path": "../models_weights/Psycho sentiment/Pycho_sentiment_bert_base.pth",
                 "tokenizer_base": "bert-base-multilingual-cased",
             },
             "flaubert_adapted": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_flaubert_adapted.pth",
+                "path": "../models_weights/Psycho sentiment/Pycho_sentiment_flaubert_adapted.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
             "flaubert_base": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_flaubert_base.pth",
+                "path": "../models_weights/Psycho sentiment/Pycho_sentiment_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
 
         },
         "labels_dic": {
-            0: 'opinionNegative',
-            1: 'sansOpinion-ou-mixte',
-            2: 'opinionPositive'},
+            0: 'opinionPositive',
+            1: 'opinionNegative',
+            2: 'sansOpinion-ou-mixte'},
 
     },
     "psycho_useCase": {
         'models': {
             "bert_base_cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho useCase/Pycho_useCase_bert_base.pth",
+                "path": "../models_weights/Psycho useCase/Pycho_useCase_bert_base.pth",
                 "tokenizer_base": "bert-base-multilingual-cased",
             },
             "bert_adapted": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho useCase/Pycho_useCase_bert_adapted.pth",
+                "path": "../models_weights/Psycho useCase/Pycho_useCase_bert_adapted.pth",
                 "tokenizer_base": "bert-base-multilingual-cased",
             },
             "flaubert_base": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho useCase/Pycho_useCase_flaubert_adapted.pth",
+                "path": "../models_weights/Psycho useCase/Pycho_useCase_flaubert_adapted.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
             "flaubert_adapted": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho sentiment/Pycho_sentiment_flaubert_adapted.pth",
+                "path": "../models_weights/Psycho sentiment/Pycho_sentiment_flaubert_adapted.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
             "flaubert_base": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/mode/home/aboumada/PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Psycho useCase/Pycho_useCase_flaubert_base.pth",
+                "path": "../models_weights/Psycho useCase/Pycho_useCase_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
 
         },
 
         "labels_dic": {
-            0: 'opinionNegative',
-            1: 'sansOpinion-ou-mixte',
-            2: 'opinionPositive'}
+            0: 'UsageDetourne',
+            1: 'UsageMedical',
+            2: 'Poubelle'}
     },
 }
 
