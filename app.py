@@ -26,15 +26,20 @@ sessions = dict()
 @cross_origin()
 def get_noFeatures_models():
 
-    dict_ = []
-    for i, k in enumerate(models_dic):
-        dict_.append({})
-        dict_[i]['name'] = k
-        dict_[i]['models'] = []
-        j = 0
-        for k_, v_ in models_dic[k]['models'].items():
-            if 'features' not in models_dic[k]['models'][k_]:
-                dict_[i]['models'].append({'name': k_})
+    dict_ = {}
+
+    for Field,class_task in models_dic.items(): 
+        dict_[Field]=[]
+        print(Field)
+        for i, k in enumerate(class_task):
+            dict_[Field].append({})
+            dict_[Field][i]['name'] = k
+            dict_[Field][i]['models'] = []
+            j = 0
+            
+            for k_, v_ in models_dic[Field][k]['models'].items():
+                if 'features' not in models_dic[Field][k]['models'][k_]:
+                    dict_[Field][i]['models'].append({'name': k_})
 
     response = jsonify(dict_)
     return response
@@ -44,12 +49,15 @@ def get_noFeatures_models():
 @cross_origin()
 def get_all_models():
 
-    dict_ = []
-    for i, k in enumerate(models_dic):
-        dict_.append({})
-        dict_[i]['name'] = k
-        dict_[i]['models'] = [{'name': v_} for k_,
-                              v_ in enumerate(models_dic[k]['models'])]
+    dict_ = {}
+
+    for Field,class_task in models_dic.items(): 
+        dict_[Field]=[]
+        for i, k in enumerate(class_task):
+            dict_[Field].append({})
+            dict_[Field][i]['name'] = k
+            dict_[Field][i]['models'] = [{'name': v_} for k_,
+                                v_ in enumerate(models_dic[Field][k]['models'])]
 
     response = jsonify(dict_)
     return response
@@ -88,7 +96,7 @@ def scrap_df():
                                    limit=limit)
         df.drop_duplicates(subset='id', keep="last")
         sessions[session_token] = df
-        print(sessions.keys())
+        print(df)
         response = jsonify({
             'session_token': session_token,
             'dataframe_length': df.shape[0]

@@ -23,7 +23,6 @@ numpy==1.16.6
 pandas==0.24.2
 pathlib==1.0.1
 pycrypto==2.6.1
-pygobject==3.26.1
 python-dateutil==2.8.1
 pytz==2020.1
 pyxdg==0.25
@@ -31,6 +30,6 @@ requests==2.23.0
 SecretStorage==2.3.1
 six==1.14.0
 soupsieve==1.9.5
-twitterscraper==1.4.0
 urllib3==1.25.9
 Werkzeug==1.0.1
+easy_nlp @ git+https://github.com/Moumeneb1/IRIT_INTERNSHIP#egg=IRIT_INTERNSHIP

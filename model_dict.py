@@ -3,11 +3,12 @@ from transformers import AutoTokenizer
 
 # When you add a model or a domain to your app Just import your model and add the path to it
 models_dic = {
+    "Crisis":{
     "crisis_binary": {
         'models': {
             "flaubert-base-cased": {
                 "model": BasicBertForClassification,
-                "path": "../PFE/nlpcrisis/Codes/deep_learning/my_models/models_weights/Crisis Binary/Crisis_Binary_flaubert_base.pth",
+                "path": "../models_weights/Crisis Binary/Crisis_Binary_flaubert_base.pth",
                 "tokenizer_base": "flaubert-base-cased",
             },
         },
@@ -46,7 +47,8 @@ models_dic = {
             4: 'Avertissement-conseil',
             5: 'Soutiens',
             6: 'Critiques'}
-    },
+    }},
+    "Psycho":{
     "psycho_sentiment": {
         'models': {
             "flaubert_base_cased": {
@@ -116,19 +118,25 @@ models_dic = {
             0: 'UsageDetourne',
             1: 'UsageMedical',
             2: 'Poubelle'}
-    },
+    }},
 }
 
 
 def get_model(domain, model_name):
-    model = models_dic[domain]['models'][model_name]["model"].load(
-        models_dic[domain]['models'][model_name]["path"])
+    
 
-    if "features" in models_dic[domain]['models'][model_name]:
-        features = models_dic[domain]['models'][model_name]["features"]
+
+    models = {}
+    for d in list(models_dic.values()):
+       models.update(d)
+    model = models[domain]['models'][model_name]["model"].load(
+        models[domain]['models'][model_name]["path"])
+
+    if "features" in models[domain]['models'][model_name]:
+        features = models[domain]['models'][model_name]["features"]
     else:
         features = []
     Tokenizer = AutoTokenizer.from_pretrained(
-        models_dic[domain]['models'][model_name]["tokenizer_base"])
+        models[domain]['models'][model_name]["tokenizer_base"])
 
-    return model, Tokenizer, models_dic[domain]["labels_dic"], features
+    return model, Tokenizer, models[domain]["labels_dic"], features
