@@ -2,4 +2,5 @@
 Flask==1.1.2
 Flask-Cors==3.0.8
 twitterscraper
+flask_cors
 easy_nlp @ git+https://github.com/Moumeneb1/IRIT_INTERNSHIP#egg=IRIT_INTERNSHIP
